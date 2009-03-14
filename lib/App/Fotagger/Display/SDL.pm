@@ -78,58 +78,40 @@ sub run {
             } elsif ($type == SDL_KEYDOWN && $app->tagging) {
                 my $image = $app->current_image;
                 my $tags = $image->tags;
-                if (length($key) == 1) {
-                    my $uni = $event->key_unicode;
-                    $tags.=chr($uni);
-                }
-                else { 
-                    given($key) {
-                        when('space') {
-                            $tags.=' ';
-                        }
-                        when('backspace') {
-                            $tags=~s/.$//;
-                        }
-                        when('return') {
-                            $app->tagging(0);
-                            $image->write();
-                            $app->next_image;
-                            $self->draw_image;
-                            next MAIN;
-                        }
+                my $update_tags_display=1;
+                given($key) {
+                    when (length == 1) {
+                        my $uni = $event->key_unicode;
+                        $tags.=chr($uni);
+                    }
+                    when('space') {
+                        $tags.=' ';
+                    }
+                    when('backspace') {
+                        $tags=~s/.$//;
+                    }
+                    when('return') {
+                        $app->tagging(0);
+                        $image->write();
+                        $app->next_image;
+                        $self->draw_image;
+                        $update_tags_display=0;
                     }
                 }
                 $image->tags($tags);
-                $self->draw_tags($image);
+                $self->draw_tags($image) if $update_tags_display;
             }
         }
     }
-
 }
 
 sub draw_image {
     my $self = shift;
     my $image = $self->app->current_image;
     my $frame = SDL::Surface->new( -name => $image->file );
-    # TODO calc image zoom
-    
     my $factor = $self->width/$image->width;
 
     SDL::Tool::Graphic->zoom($frame,$factor,$factor);
-
-    my $frame_rect = SDL::Rect->new(
-        -height => $frame->height(),
-        -width  => $frame->width(),
-        -x      => 0,
-        -y      => 0,
-    );
-
-    my $dest_rect  = SDL::Rect->new(
-        -height => $frame->height(),
-         -width  => $frame->width(),
-        -x      => 0,
-        -y      => 0,
-    );
 
     $frame->blit( undef, $self->window, undef );
 
