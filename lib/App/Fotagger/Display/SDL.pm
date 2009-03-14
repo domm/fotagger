@@ -16,6 +16,7 @@ use SDL::Color;
 has 'width' => (isa=>'Int',is=>'ro',default=>'1000');
 has 'height' => (isa=>'Int',is=>'ro',default=>'750');
 has 'black'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>0, -g=>0, -b=>0)});
+has 'grey'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>50, -g=>50, -b=>50)});
 has 'white'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>255, -b=>255)});
 has 'blank_tags' => (isa=>'SDL::Rect',is=>'rw');
 
@@ -146,7 +147,7 @@ sub draw_tags {
     my $self = shift;
     my $image = shift || $self->app->current_image;
 
-    $self->window->fill($self->blank_tags,$self->black);
+    $self->window->fill($self->blank_tags,$self->app->tagging ? $self->grey : $self->black);
     $self->window->update($self->blank_tags);
 
     $self->font->print($self->window, 5, 682, "Tags: ".$image->tags);
