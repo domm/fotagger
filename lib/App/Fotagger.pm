@@ -47,13 +47,15 @@ sub run_display {
 
 sub next_image {
     my $self = shift;
-    $self->image_index($self->image_index +1);
+    my $inc = shift || 1;
+    $self->image_index($self->image_index + $inc);
     return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$self->image_index]));
 }
 
 sub prev_image {
     my $self = shift;
-    $self->image_index($self->image_index -1);
+    my $dec = shift || 1;
+    $self->image_index($self->image_index - $dec);
     return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$self->image_index]));
 }
 
@@ -65,6 +67,7 @@ sub current_image {
     }
     return $self->_current_image;
 }
+
 q{ listeing to:
     Peter Fox - Stadtaffen
 };

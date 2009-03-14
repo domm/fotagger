@@ -62,6 +62,15 @@ sub run {
                         $app->prev_image;
                         $self->draw_image;
                     }
+                    when ('page down') {
+                        $app->next_image(10);
+                        $self->draw_image;
+                    }
+                    when ('page up') {
+                        $app->prev_image(10);
+                        $self->draw_image;
+                    }
+
                     when ('d') {
                         # TODO add delete tag
                         $app->next_image;
