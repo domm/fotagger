@@ -54,11 +54,11 @@ sub run {
             my $key = $event->key_name();
             if ($type == SDL_KEYDOWN && !$app->tagging) {
                 given($key) {
-                    when ('n') {
+                    when (['n','return']) {
                         $app->next_image;
                         $self->draw_image;
                     }
-                    when ('p') {
+                    when (['p','backspace']) {
                         $app->prev_image;
                         $self->draw_image;
                     }
