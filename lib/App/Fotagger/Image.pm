@@ -33,7 +33,9 @@ sub read {
 
 sub write {
     my $self = shift;
-    $self->exif->SetNewValue('Keywords',$self->tags);
+    my $tags = $self->tags;
+    $tags=~s/,(\S)/, $1/g;
+    $self->exif->SetNewValue('Keywords',$tags);
     my $created = $self->dateparser->parse_datetime($self->create_date)->epoch;
     $self->exif->WriteInfo($self->file);
 
