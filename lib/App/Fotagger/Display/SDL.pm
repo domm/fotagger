@@ -81,6 +81,11 @@ sub run {
                         $app->next_image;
                         $self->draw_image;
                     }
+                    when ('u') {
+                        $app->current_image->restore;
+                        $self->draw_image;
+                    }
+
                     when ('t') {
                         $app->tagging(1);
                         if (my $old_tags=$app->current_image->tags) {

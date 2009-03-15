@@ -56,6 +56,12 @@ sub delete {
     $self->write;
 }
 
+sub restore {
+    my $self = shift;
+    $self->tags(join(', ',grep { !/TO_DELETE/} split (', ',$self->tags)));
+    $self->write;
+}
+
 q{ listeing to:
     Grandmaster Flash: The Bridge
 };
