@@ -43,6 +43,17 @@ sub write {
 
 }
 
+sub deleted {
+    my $self = shift;
+    $self->tags =~ /TO_DELETE/ ? 1 : undef;
+}
+
+sub delete {
+    my $self = shift;
+    $self->tags($self->tags.', TO_DELETE');
+    $self->write;
+}
+
 q{ listeing to:
     Grandmaster Flash: The Bridge
 };

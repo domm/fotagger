@@ -16,6 +16,7 @@ use SDL::Color;
 has 'width' => (isa=>'Int',is=>'ro',default=>'1000');
 has 'height' => (isa=>'Int',is=>'ro',default=>'750');
 has 'black'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>0, -g=>0, -b=>0)});
+has 'red'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>0, -b=>0)});
 has 'grey'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>50, -g=>50, -b=>50)});
 has 'white'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>255, -b=>255)});
 has 'blank_tags' => (isa=>'SDL::Rect',is=>'rw');
@@ -70,9 +71,8 @@ sub run {
                         $app->prev_image(10);
                         $self->draw_image;
                     }
-
                     when ('d') {
-                        # TODO add delete tag
+                        $app->current_image->delete;
                         $app->next_image;
                         $self->draw_image;
                     }
@@ -130,6 +130,11 @@ sub draw_image {
     $self->font->print($self->window, 5, $self->height-15, sprintf("File: %s (%s)",$image->file,$image->create_date));
 
     $self->draw_tags($image);
+
+    if ($image->deleted) {
+        my $dfont=SDL::TTFont->new(-name=>'/usr/share/fonts/truetype/ttf-liberation/LiberationSans-Regular.ttf', -size=>200,-fg=>$self->red,  -bg=>$self->black);
+        $dfont->print($self->window,10,10,"DELETED");
+    }
 
     $self->window->sync;
 }
