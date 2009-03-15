@@ -112,13 +112,10 @@ sub run {
                     when('return') {
                         $app->tagging(0);
                         $image->write();
-                        $app->next_image;
-                        $self->draw_image;
-                        $update_tags_display=0;
                     }
                 }
                 $image->tags($tags);
-                $self->draw_tags($image) if $update_tags_display;
+                $self->draw_tags($image);
             }
         }
     }
