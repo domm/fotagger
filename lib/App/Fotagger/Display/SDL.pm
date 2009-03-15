@@ -17,11 +17,14 @@ has 'width' => (isa=>'Int',is=>'ro',default=>'1000');
 has 'height' => (isa=>'Int',is=>'ro',default=>'750');
 has 'black'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>0, -g=>0, -b=>0)});
 has 'red'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>0, -b=>0)});
+has 'yellow'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>255, -b=>0)});
 has 'grey'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>50, -g=>50, -b=>50)});
 has 'white'  => (isa=>'SDL::Color',is=>'ro',default=>sub {SDL::Color->new(-r=>255, -g=>255, -b=>255)});
 has 'blank_tags' => (isa=>'SDL::Rect',is=>'rw');
+has 'blank_stars' => (isa=>'SDL::Rect',is=>'rw');
 
 has 'font' => (isa=>'SDL::TTFont',is=>'rw');
+has 'starfont' => (isa=>'SDL::TTFont',is=>'rw');
 has 'event' => (isa=>'SDL::Event',is=>'rw');
 has 'window'=> (isa=>'SDL::App',is=>'rw');
 has 'app' => (isa=>'App::Fotagger',is=>'ro');
@@ -39,9 +42,11 @@ sub run {
     );
     $self->window($window);
     $self->font(SDL::TTFont->new(-name=>'/usr/share/fonts/truetype/ttf-liberation/LiberationSans-Regular.ttf', -size=>12,-bg=>$self->black,  -fg=>$self->white));
+    $self->starfont(SDL::TTFont->new(-name=>'/usr/share/fonts/truetype/ttf-liberation/LiberationSans-Regular.ttf', -size=>60,-bg=>$self->black,  -fg=>$self->yellow));
     $self->event(SDL::Event->new);
     $self->event->set_unicode(1);
-    $self->blank_tags(SDL::Rect->new(-width=>$self->width, -height=>20, -y=>680, -x=>0));
+    $self->blank_tags(SDL::Rect->new(-width=>$self->width, -height=>16, -y=>680, -x=>0));
+    $self->blank_stars(SDL::Rect->new(-width=>$self->width, -height=>30, -y=>696, -x=>0));
 
     my $event = $self->event;
     
@@ -82,6 +87,11 @@ sub run {
                             $app->current_image->tags($old_tags.', ');
                             $self->draw_tags();
                         }
+                    }
+                    when([0 .. 5]) {
+                        $app->current_image->stars($key);
+                        $app->current_image->write;
+                        $self->draw_stars;
                     }
                 }
             } elsif ($type == SDL_KEYDOWN && $app->tagging) {
@@ -124,12 +134,13 @@ sub draw_image {
 
     $frame->blit( undef, $self->window, undef );
 
-    my $blank = new SDL::Rect(-width=>1000, -height=>20, -y=>730, -x=>0);
+    my $blank = new SDL::Rect(-width=>500, -height=>20, -y=>730, -x=>0);
     $self->window->fill($blank,$self->black);
     $self->window->update($blank);
     $self->font->print($self->window, 5, $self->height-15, sprintf("File: %s (%s)",$image->file,$image->create_date));
 
     $self->draw_tags($image);
+    $self->draw_stars($image);
 
     if ($image->deleted) {
         my $dfont=SDL::TTFont->new(-name=>'/usr/share/fonts/truetype/ttf-liberation/LiberationSans-Regular.ttf', -size=>200,-fg=>$self->red,  -bg=>$self->black);
@@ -147,6 +158,19 @@ sub draw_tags {
     $self->window->update($self->blank_tags);
 
     $self->font->print($self->window, 5, 682, "Tags: ".$image->tags);
+    $self->window->sync;
+}
+
+sub draw_stars {
+    my $self = shift;
+    my $image = shift || $self->app->current_image;
+
+    my $stars = $image->stars;
+    
+    $self->window->fill($self->blank_stars,$self->black);
+    $self->window->update($self->blank_tags);
+
+    $self->starfont->print($self->window, 5, 690, "*" x $stars) if $stars;
     $self->window->sync;
 
 

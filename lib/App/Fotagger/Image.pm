@@ -12,6 +12,7 @@ use Image::ExifTool;
 has 'file' => ( isa => 'Str', is => 'ro', required=>1 );
 has 'exif' => (isa=>'Image::ExifTool',is=>'rw');
 has 'tags' => (isa=>'Str',is=>'rw');
+has 'stars' => (isa=>'Int',is=>'rw');
 has 'create_date' => (isa=>'Str',is=>'rw');
 has 'width' => (isa=>'Int',is=>'rw');
 has 'dateparser' => (isa=>'DateTime::Format::Strptime',is=>'ro',required=>1,default=>sub {DateTime::Format::Strptime->new(pattern=>'%Y:%m:%d %H:%M:%S');
@@ -23,8 +24,8 @@ sub read {
     
     my $exif = $self->exif(Image::ExifTool->new);
     $exif->ExtractInfo($self->file);
-    
     $self->tags($exif->GetValue('Keywords') || '');
+    $self->stars($exif->GetValue('UserComment') || 0);
     $self->create_date($exif->GetValue('CreateDate'));
     $self->width($exif->GetValue('ImageWidth'));
     
@@ -36,6 +37,7 @@ sub write {
     my $tags = $self->tags;
     $tags=~s/,(\S)/, $1/g;
     $self->exif->SetNewValue('Keywords',$tags);
+    $self->exif->SetNewValue('UserComment',$self->stars);
     my $created = $self->dateparser->parse_datetime($self->create_date)->epoch;
     $self->exif->WriteInfo($self->file);
 
