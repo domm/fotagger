@@ -16,6 +16,8 @@ has 'display'=>(is=>'rw');
 has 'images' => (isa=>'ArrayRef', is=>'rw');
 has 'image_index' => (isa=>'Int', is=>'rw',default=>0);
 has '_current_image' => ( isa=>'App::Fotagger::Image', is=>'rw');
+has '_lasttags'=>(isa=>'Str',is=>'rw');
+has '_laststar'=>(isa=>'Str',is=>'rw');
 
 has 'tagging' => (isa=>'Bool',is=>'rw',default=>0);
 

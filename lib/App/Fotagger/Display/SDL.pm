@@ -29,6 +29,7 @@ has 'event' => (isa=>'SDL::Event',is=>'rw');
 has 'window'=> (isa=>'SDL::App',is=>'rw');
 has 'app' => (isa=>'App::Fotagger',is=>'ro');
 
+
 sub run {
     my ($class, $app) = @_;
     my $self = $class->new(
@@ -61,6 +62,8 @@ sub run {
             if ($type == SDL_KEYDOWN && !$app->tagging) {
                 given($key) {
                     when (['n','return']) {
+                        $app->_lasttags($app->current_image->tags);
+                        $app->_laststar($app->current_image->stars);
                         $app->next_image;
                         $self->draw_image;
                     }
@@ -85,7 +88,12 @@ sub run {
                         $app->current_image->restore;
                         $self->draw_image;
                     }
+                    when ('s') {
+                        $app->current_image->tags($app->_lasttags);
+                        $app->current_image->stars($app->_laststar);
+                        $self->draw_image;
 
+                    }
                     when ('t') {
                         $app->tagging(1);
                         if (my $old_tags=$app->current_image->tags) {
