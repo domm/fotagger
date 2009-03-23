@@ -15,6 +15,7 @@ has 'display_class' => (isa=>'Str',is=>'ro',default=>'SDL');
 has 'display'=>(is=>'rw');
 has 'images' => (isa=>'ArrayRef', is=>'rw');
 has 'image_index' => (isa=>'Int', is=>'rw',default=>0);
+has '_image_count' => (isa=>'Int', is =>'rw');
 has '_current_image' => ( isa=>'App::Fotagger::Image', is=>'rw');
 has '_lasttags'=>(isa=>'Str',is=>'rw');
 has '_laststar'=>(isa=>'Str',is=>'rw');
@@ -35,6 +36,7 @@ sub get_images {
     my $self = shift;
     my @images = sort File::Find::Rule->file->name( '*.jpg' )->in( $self->dir);
     $self->images(\@images);
+    $self->_image_count(scalar @images);
     $self->current_image(App::Fotagger::Image->new({file=>$self->images->[0]}));
 
 }
@@ -50,15 +52,19 @@ sub run_display {
 sub next_image {
     my $self = shift;
     my $inc = shift || 1;
-    $self->image_index($self->image_index + $inc);
-    return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$self->image_index]));
+    my $next = $self->image_index + $inc;
+    $next = 0 if $next >= $self->_image_count;
+    $self->image_index($next);
+    return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$next]));
 }
 
 sub prev_image {
     my $self = shift;
     my $dec = shift || 1;
-    $self->image_index($self->image_index - $dec);
-    return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$self->image_index]));
+    my $prev = $self->image_index - $dec;
+    $prev = $self->_image_count -1 if $prev < 0;
+    $self->image_index($prev);
+    return $self->current_image(App::Fotagger::Image->new(file=>$self->images->[$prev]));
 }
 
 sub current_image {

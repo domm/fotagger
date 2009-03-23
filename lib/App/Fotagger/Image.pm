@@ -28,8 +28,7 @@ sub read {
     $self->stars($exif->GetValue('UserComment') || 0);
     $self->create_date($exif->GetValue('CreateDate'));
     $self->width($exif->GetValue('ImageWidth'));
-    
-
+    return $self;
 }
 
 sub write {
@@ -42,7 +41,7 @@ sub write {
     $self->exif->WriteInfo($self->file);
 
     utime($created,$created,$self->file);
-
+    return $self;
 }
 
 sub deleted {
