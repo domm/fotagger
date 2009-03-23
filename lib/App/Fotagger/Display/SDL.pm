@@ -91,6 +91,7 @@ sub run {
                     when ('s') {
                         $app->current_image->tags($app->_lasttags);
                         $app->current_image->stars($app->_laststar);
+                        $app->current_image->write();
                         $self->draw_image;
 
                     }
