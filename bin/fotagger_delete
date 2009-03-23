@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use 5.010;
+use App::Fotagger::Deleter;
+my $app = App::Fotagger::Deleter->new_with_options;
+
+$app->delete_tagged_images;
