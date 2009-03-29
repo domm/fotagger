@@ -46,6 +46,14 @@ sub write {
     return $self;
 }
 
+sub add_tags {
+    my ($self, $tags) = @_;
+    
+    my @new = map { split(/,\s?/ ) } $self->tags, ref($tags) eq 'ARRAY' ? @$tags : $tags  ;
+    my %unique = map { $_=>1 } @new;
+    $self->tags( join (', ', keys %unique));
+}
+
 sub deleted {
     my $self = shift;
     $self->tags =~ /TO_DELETE/ ? 1 : undef;
