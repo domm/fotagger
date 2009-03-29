@@ -3,6 +3,6 @@ use strict;
 use warnings;
 use 5.010;
 use App::Fotagger::Deleter;
-my $app = App::Fotagger::Deleter->new_with_options;
+App::Fotagger::Deleter->new_with_options->delete_tagged_images;
 
-$app->delete_tagged_images;
+
