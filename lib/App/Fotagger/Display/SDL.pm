@@ -68,6 +68,8 @@ sub run {
                         $self->draw_image;
                     }
                     when (['p','backspace']) {
+                        $app->_lasttags($app->current_image->tags);
+                        $app->_laststar($app->current_image->stars);
                         $app->prev_image;
                         $self->draw_image;
                     }
