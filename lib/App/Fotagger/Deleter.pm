@@ -17,6 +17,7 @@ has 'ask'  => ( isa => 'Bool', is => 'ro', default=>0);
 sub delete_tagged_images {
     my $self = shift;
     $self->get_images;
+    my $count=0;
 
     foreach my $file (@{$self->images}) {
         my $image = App::Fotagger::Image->new({file=>$file});
@@ -30,11 +31,12 @@ sub delete_tagged_images {
             }
             unless ($self->dry_run) {
                 unlink($file) || say "Couldn't unlink $file";
+                $count++;
             }
             say "deleted $file" if $self->verbose;
         }
     }
-
+    say "deleted $count file".($count>1?'s':'');
 }
 
 q{ listeing to:
