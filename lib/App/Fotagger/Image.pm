@@ -18,6 +18,8 @@ has 'width' => (isa=>'Int',is=>'rw');
 has 'dateparser' => (isa=>'DateTime::Format::Strptime',is=>'ro',required=>1,default=>sub {DateTime::Format::Strptime->new(pattern=>'%Y:%m:%d %H:%M:%S');
 });
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 sub read {
     my $self = shift;

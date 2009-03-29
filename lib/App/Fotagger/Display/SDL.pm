@@ -29,6 +29,9 @@ has 'event' => (isa=>'SDL::Event',is=>'rw');
 has 'window'=> (isa=>'SDL::App',is=>'rw');
 has 'app' => (isa=>'App::Fotagger',is=>'ro');
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 
 sub run {
     my ($class, $app) = @_;

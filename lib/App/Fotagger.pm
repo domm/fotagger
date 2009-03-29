@@ -22,6 +22,9 @@ has '_laststar'=>(isa=>'Str',is=>'rw');
 
 has 'tagging' => (isa=>'Bool',is=>'rw',default=>0);
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 use File::Find::Rule;
 use App::Fotagger::Image;
 

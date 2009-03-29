@@ -3,7 +3,6 @@ package App::Fotagger::Deleter;
 use strict;
 use warnings;
 use 5.010;
-use version; our $VERSION = version->new('0.01');
 
 use Moose;
 
@@ -13,6 +12,8 @@ has 'dry_run' => ( isa => 'Bool', is => 'ro', default=>0);
 has 'verbose' => ( isa => 'Bool', is => 'ro', default=>0);
 has 'ask'  => ( isa => 'Bool', is => 'ro', default=>0);
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 sub delete_tagged_images {
     my $self = shift;
