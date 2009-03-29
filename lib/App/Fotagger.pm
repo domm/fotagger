@@ -79,7 +79,7 @@ sub current_image {
     return $self->_current_image;
 }
 
-q{ listeing to:
+q{ listening to:
     Peter Fox - Stadtaffen
 };
 

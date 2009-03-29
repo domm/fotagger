@@ -192,7 +192,7 @@ sub draw_stars {
 
 }
 
-q{ listeing to:
+q{ listening to:
     Peter Fox - Stadtaffen
 };
 

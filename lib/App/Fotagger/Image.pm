@@ -63,6 +63,6 @@ sub restore {
     $self->write;
 }
 
-q{ listeing to:
+q{ listening to:
     Grandmaster Flash: The Bridge
 };

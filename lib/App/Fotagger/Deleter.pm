@@ -40,7 +40,7 @@ sub delete_tagged_images {
     say "deleted $count file".($count>1?'s':'');
 }
 
-q{ listeing to:
+q{ listening to:
     Soap & Skin - Lovetune For Vacuum
 };
 
