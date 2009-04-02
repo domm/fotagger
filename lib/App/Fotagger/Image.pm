@@ -35,9 +35,11 @@ sub read {
 
 sub write {
     my $self = shift;
-    my $tags = $self->tags;
-    $tags=~s/,(\S)/, $1/g;
-    $self->exif->SetNewValue('Keywords',$tags);
+    my %unique = map { $_=>1 } split(/,\s?/, $self->tags);
+    my $tags = $self->tags( join (', ', keys %unique));
+    
+    $self->exif->SetNewValue('Keywords');
+    $self->exif->SetNewValue('Keywords'=>[sort keys %unique]);
     $self->exif->SetNewValue('UserComment',$self->stars);
     my $created = $self->dateparser->parse_datetime($self->create_date)->epoch;
     $self->exif->WriteInfo($self->file);

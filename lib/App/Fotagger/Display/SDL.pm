@@ -94,7 +94,7 @@ sub run {
                         $self->draw_image;
                     }
                     when ('s') {
-                        $app->current_image->tags($app->_lasttags);
+                        $app->current_image->add_tags($app->_lasttags);
                         $app->current_image->stars($app->_laststar);
                         $app->current_image->write();
                         $self->draw_image;
@@ -111,6 +111,7 @@ sub run {
                         $app->current_image->stars($key);
                         $app->current_image->write;
                         $self->draw_stars;
+                        $self->draw_tags;
                     }
                 }
             } elsif ($type == SDL_KEYDOWN && $app->tagging) {
