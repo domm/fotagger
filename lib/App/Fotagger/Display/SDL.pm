@@ -85,9 +85,14 @@ sub run {
                         $self->draw_image;
                     }
                     when ('d') {
+                        my $ltag=$app->_lasttags;
+                        my $lstar = $app->_laststar;
+
                         $app->current_image->delete;
                         $app->next_image;
                         $self->draw_image;
+                        $app->_lasttags($ltag);
+                        $app->_laststar($lstar);
                     }
                     when ('u') {
                         $app->current_image->restore;
