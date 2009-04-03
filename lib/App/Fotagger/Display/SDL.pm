@@ -91,8 +91,8 @@ sub run {
                         $app->current_image->delete;
                         $app->next_image;
                         $self->draw_image;
-                        $app->_lasttags($ltag);
-                        $app->_laststar($lstar);
+                        $app->_lasttags($ltag) if $ltag;
+                        $app->_laststar($lstar) if $lstar;
                     }
                     when ('u') {
                         $app->current_image->restore;
