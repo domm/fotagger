@@ -32,7 +32,7 @@ my $builder = Module::Build->new(
         resources => {
             bugtracker =>
                 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-Fotagger',
-            repository => 'http://github.com/domm/App-Fotagger',
+            repository => 'http://github.com/domm/fotagger',
         }
     },
 
