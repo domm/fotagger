@@ -12,4 +12,8 @@
 \bcover_db
 \bBuild$
 \bBuild.bat$
-\b_build
+\b_build\b
+\B.git$
+\B.git\b
+^imgs/
+

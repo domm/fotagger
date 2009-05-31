@@ -3,7 +3,7 @@ package App::Fotagger;
 use strict;
 use warnings;
 use 5.010;
-use version; our $VERSION = version->new('0.01');
+use version; our $VERSION = qv('0.001.0');
 
 use Moose;
 
