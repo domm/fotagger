@@ -22,9 +22,6 @@ my $builder = Module::Build->new(
     build_requires    => {
         'Test::More'       => 0,
     },
-    requires => {
-        'perl'             => '5.010',
-    },
     add_to_cleanup     => ['App-Fotagger-*'],
     create_makefile_pl => 'passthrough',
     recursive_test_files => 1,
