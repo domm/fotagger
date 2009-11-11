@@ -12,6 +12,7 @@ use SDL::TTFont;
 use SDL::Rect;
 use SDL::Event;
 use SDL::Color;
+use SDL::Constants;
 
 has 'width' => (isa=>'Int',is=>'ro',default=>'1000');
 has 'height' => (isa=>'Int',is=>'ro',default=>'750');
