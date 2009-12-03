@@ -113,6 +113,10 @@ sub run {
                             $self->draw_tags();
                         }
                     }
+                    when ('e') {
+                        $app->current_image->toggle_export;
+                        $self->draw_tags();
+                    }
                     when([0 .. 5]) {
                         $app->current_image->stars($key);
                         $app->current_image->write;

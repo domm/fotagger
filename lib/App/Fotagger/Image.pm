@@ -73,6 +73,19 @@ sub restore {
     $self->write;
 }
 
+sub toggle_export {
+    my $self = shift;
+    my $tags = $self->tags;
+    if ($tags =~ /EXPORT/) {
+        $tags=join(', ',grep { !/EXPORT/ } split(', ',$tags));
+    }
+    else {
+        $tags.=', EXPORT';
+    }
+    $self->tags($tags);
+    $self->write;
+}
+
 q{ listening to:
     Grandmaster Flash: The Bridge
 };
